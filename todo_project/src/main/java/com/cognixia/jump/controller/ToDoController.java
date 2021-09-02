@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.ToDo;
 import com.cognixia.jump.repository.ToDoRepository;
 import com.cognixia.jump.repository.UserRepository;
@@ -49,16 +50,19 @@ public class ToDoController {
 	}
 	
 	@GetMapping("/todo/{id}")
-	public List<ToDo> getToDoByUserId(@PathVariable Integer id) {
+	public List<ToDo> getToDoByUserId(@PathVariable Integer id) throws ResourceNotFoundException {
 		List<ToDo> usersTasks = new ArrayList<ToDo>();
 		List<ToDo> allTasks = repo.findAll();
-		
-		for(ToDo task : allTasks) {
-			if(task.getUser().getId() == id) {
-				usersTasks.add(task);
+		if(repo.existsById(id)) { 
+			for(ToDo task : allTasks) {
+				if(task.getUser().getId() == id) {
+					usersTasks.add(task);
+				}
 			}
+			return usersTasks;
 		}
-		return usersTasks;
+		throw new ResourceNotFoundException("Task with id: "+id+" wasn't found");
+		
 	}
 	
 	@DeleteMapping("/todo/{id}")
