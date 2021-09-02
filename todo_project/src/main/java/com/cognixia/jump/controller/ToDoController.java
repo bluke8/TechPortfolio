@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.ToDo;
+import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.ToDoRepository;
 import com.cognixia.jump.repository.UserRepository;
 import com.cognixia.jump.service.ToDoService;
@@ -75,6 +76,17 @@ public class ToDoController {
 		return ResponseEntity.status(200).body("Task was deleted with id: "+id);
 	}
 	
+//	@DeleteMapping("/todo/{id}")
+//	public ResponseEntity<?> deleteByUser(@PathVariable Integer id) throws ResourceNotFoundException { 
+//		if(userRepo.existsById(id)) { 
+//			User user = userRepo.getById(id);
+//			
+//			repo.DeleteByUser(user);
+//			
+//			return ResponseEntity.status(200).body("Tasks were deleted for user with id: "+id);
+//		}
+//		throw new ResourceNotFoundException("User wasn't found with id: "+id);
+//	}
 	
 	// Doesn't work, "Cannot convert String to Date" when trying to utilize this in postman
 	@PutMapping("/todo/update_due_date")
